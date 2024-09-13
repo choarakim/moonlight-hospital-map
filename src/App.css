@@ -75,3 +75,40 @@
   content: "⚠️ ";
   margin-right: 5px;
 }
+
+.detailed-search-button,
+.view-toggle-button {
+  font-size: 1.2rem;  /* Increase font size */
+  padding: 12px 15px; /* Increase padding for larger touch target */
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: left;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.detailed-search-button:hover,
+.view-toggle-button:hover {
+  background-color: #e0e0e0;
+}
+
+
+/* Responsive map size */
+.map-container {
+  height: 40vh; /* Default for mobile */
+}
+
+@media (min-width: 768px) {
+  .map-container {
+    height: 60vh; /* Taller for tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  .map-container {
+    height: 70vh; /* Even taller for desktops */
+  }
+}
