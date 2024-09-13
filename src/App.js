@@ -45,35 +45,27 @@ const ShareButton = ({ hospital }) => {
   };
 
   return (
-    <button onClick={shareInfo} style={{ marginTop: '10px', padding: '5px 10px' }}>
+    <button onClick={shareInfo} className="share-button">
       {shared ? '공유됨!' : '정보 공유하기'}
     </button>
   );
 };
 
-const HospitalInfo = ({ hospital }) => {
-  const smallerFontStyle = {
-    fontSize: '0.9em',
-    lineHeight: '1.2',
-    margin: '5px 0'
-  };
-
-  return (
-    <div>
-      <h2>{hospital.name}</h2>
-      <p>지역: {hospital.region} | 유형: {hospital.type}</p>
-      <p>주소: {hospital.address}</p>
-      <p>전화: <a href={`tel:${hospital.phone}`}>{hospital.phone}</a></p>
+const HospitalInfo = ({ hospital }) => (
+  <div className="hospital-info">
+    <h2>{hospital.name}</h2>
+    <p className="hospital-info-details">지역: {hospital.region} | 유형: {hospital.type}</p>
+    <p className="hospital-info-details">주소: {hospital.address}</p>
+    <p className="hospital-info-details">전화: <a href={`tel:${hospital.phone}`}>{hospital.phone}</a></p>
+    <div className="hospital-hours">
       <HospitalHours hours={hospital.hours} />
-      <p style={smallerFontStyle}>진료과목: {hospital.진료과목.join(', ')}</p>
-      {hospital.의료자원.length > 0 && (
-        <p style={smallerFontStyle}>의료자원: {hospital.의료자원.join(', ')}</p>
-      )}
-      <p><a href={hospital.website} target="_blank" rel="noopener noreferrer">병원 웹사이트 방문</a></p>
-      <ShareButton hospital={hospital} />
     </div>
-  );
-};
+    <p>진료과목: {hospital.진료과목.join(', ')}</p>
+    {hospital.의료자원.length > 0 && <p>의료자원: {hospital.의료자원.join(', ')}</p>}
+    <p><a href={hospital.website} target="_blank" rel="noopener noreferrer">병원 웹사이트 방문</a></p>
+    <ShareButton hospital={hospital} />
+  </div>
+);
 
 const RegionSection = ({ region, hospitals }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -268,8 +260,8 @@ const App = () => {
 
       <div style={{ marginBottom: '10px' }}>
         <button 
+          className="detailed-search-button"
           onClick={() => setIsSearchExpanded(!isSearchExpanded)}
-          style={{ width: '100%', padding: '10px', backgroundColor: '#f0f0f0', border: 'none', textAlign: 'left' }}
         >
           상세 검색 {isSearchExpanded ? '▲' : '▼'}
         </button>
@@ -316,8 +308,8 @@ const App = () => {
       </div>
       
       <button 
+        className="view-toggle-button"
         onClick={() => setIsMapView(!isMapView)}
-        style={{ marginBottom: '10px', padding: '10px', width: '100%' }}
       >
         {isMapView ? '목록 보기' : '지도 보기'}
       </button>
