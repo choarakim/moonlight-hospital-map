@@ -1,0 +1,25 @@
+/* src/leaflet_custom.css */
+
+.leaflet-container .leaflet-popup-close-button {
+    font-size: 30px !important;  /* Increase font size even more */
+    width: 30px !important;  /* Increase width */
+    height: 30px !important;  /* Increase height */
+    padding: 4px !important;  /* Adjust padding */
+    right: 9px !important;  /* Adjust position */
+    top: 9px !important;  /* Adjust position */
+    color: #333 !important;  /* Change color if desired */
+    font-weight: bold !important;  /* Make it bold */
+  }
+  
+  .leaflet-container .leaflet-popup-close-button:hover {
+    color: #000 !important;  /* Change hover color if desired */
+    background-color: #f0f0f0 !important;  /* Add background on hover */
+  }
+  
+  .leaflet-popup-content-wrapper {
+    padding-right: 40px !important;  /* Increase right padding to accommodate the larger X */
+  }
+  
+  .leaflet-popup-content {
+    margin: 13px 19px 13px 13px !important;  /* Adjust content margin */
+  }

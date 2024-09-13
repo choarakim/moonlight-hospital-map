@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+/* Add this to your CSS file or as a style tag in your HTML */
+.app-title {
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.app-title .emoji {
+  margin-right: 10px;
+}
+
+/* New styles for app content padding */
+.app-content {
+  padding-left: 20px;  /* Adjust this value as needed */
+  padding-right: 20px; /* Added for balance, remove if not needed */
+}
+
+/* If you want padding only for specific elements, you can target them directly */
+.location-message, 
+.search-container,
+.view-toggle-button {
+  padding-left: 20px;  /* Adjust this value as needed */
+}
+
+.info-message.red-small-font {
+  color: #ff0000;  /* Bright red color */
+  font-size: 0.8em;  /* Smaller font size */
+  padding: 5px 0;  /* Reduce padding */
+  margin-bottom: 10px;
+  text-align: left;  /* Align text to the left */
+}
+
+.info-message.red-small-font::before {
+  content: "⚠️ ";
+  margin-right: 5px;
+}
