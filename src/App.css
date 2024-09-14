@@ -97,18 +97,21 @@
 
 /* Responsive map size */
 .map-container {
-  height: 40vh; /* Default for mobile */
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-@media (min-width: 768px) {
-  .map-container {
-    height: 60vh; /* Taller for tablets */
+@media (max-width: 768px) {
+  .map-container .leaflet-container {
+    height: 400px;
   }
 }
 
-@media (min-width: 1024px) {
-  .map-container {
-    height: 70vh; /* Even taller for desktops */
+@media (max-width: 480px) {
+  .map-container .leaflet-container {
+    height: 300px;
   }
 }
 

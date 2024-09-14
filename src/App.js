@@ -29,8 +29,7 @@ const ShareButton = ({ hospital }) => {
       try {
         await navigator.share({
           title: hospital.name,
-          text: info,
-          url: hospital.website,
+          text: info
         });
         setShared(true);
       } catch (error) {
@@ -46,7 +45,7 @@ const ShareButton = ({ hospital }) => {
 
   return (
     <button onClick={shareInfo} className="share-button">
-      {shared ? '공유됨!' : '정보 공유하기'}
+      {shared ? '복사됨!' : '정보 공유하기'}
     </button>
   );
 };
@@ -60,12 +59,12 @@ const HospitalInfo = ({ hospital }) => (
     <div className="hospital-hours">
       <HospitalHours hours={hospital.hours} />
     </div>
-    <p>진료과목: {hospital.진료과목.join(', ')}</p>
-    {hospital.의료자원.length > 0 && <p>의료자원: {hospital.의료자원.join(', ')}</p>}
-    <p><a href={hospital.website} target="_blank" rel="noopener noreferrer">병원 웹사이트 방문</a></p>
+    <p>진료과목: {hospital.specialties.join(', ')}</p>
+    {hospital.resources && hospital.resources.length > 0 && <p>의료자원: {hospital.resources.join(', ')}</p>}
     <ShareButton hospital={hospital} />
   </div>
 );
+
 
 const RegionSection = ({ region, hospitals }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -141,20 +140,30 @@ const MapView = ({ hospitals, userLocation }) => {
   const defaultZoom = 7;
 
   return (
-    <MapContainer center={userLocation || koreaCenter} zoom={userLocation ? 13 : defaultZoom} style={{ height: '900px', width: '100%' }}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {hospitals.map((hospital, index) => (
-        <Marker key={index} position={hospital.position}>
-          <Popup>
-            <HospitalInfo hospital={hospital} />
-          </Popup>
-        </Marker>
-      ))}
-      <LocationMarker position={userLocation} />
-    </MapContainer>
+    <div className="map-container">
+      <MapContainer 
+        center={userLocation || koreaCenter} 
+        zoom={userLocation ? 13 : defaultZoom} 
+        style={{ height: '600px', width: '100%' }}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {hospitals.map((hospital, index) => (
+          <Marker key={index} position={hospital.position}>
+            <Popup>
+              <HospitalInfo hospital={hospital} />
+            </Popup>
+          </Marker>
+        ))}
+        {userLocation && (
+          <Marker position={userLocation}>
+            <Popup>현재 위치</Popup>
+          </Marker>
+        )}
+      </MapContainer>
+    </div>
   );
 };
 
@@ -190,8 +199,8 @@ const Footer = () => {
 const App = () => {
   const [hospitals, setHospitals] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [진료과목Filters, set진료과목Filters] = useState({});
-  const [의료자원Filters, set의료자원Filters] = useState({});
+  const [specialtyFilters, setSpecialtyFilters] = useState({});
+  const [resourceFilters, setResourceFilters] = useState({});
   const [isMapView, setIsMapView] = useState(true);
   const [userLocation, setUserLocation] = useState(null);
   const [locationMessage, setLocationMessage] = useState('');
@@ -199,16 +208,18 @@ const App = () => {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   useEffect(() => {
-    setHospitals(hospitalData.hospitals);
+    setHospitals(hospitalData);
 
-    const 진료과목Set = new Set();
-    const 의료자원Set = new Set();
-    hospitalData.hospitals.forEach(hospital => {
-      hospital.진료과목.forEach(item => 진료과목Set.add(item));
-      hospital.의료자원.forEach(item => 의료자원Set.add(item));
+    const specialtySet = new Set();
+    const resourceSet = new Set();
+    hospitalData.forEach(hospital => {
+      hospital.specialties.forEach(item => specialtySet.add(item));
+      if (hospital.resources) {
+        hospital.resources.forEach(item => resourceSet.add(item));
+      }
     });
-    set진료과목Filters(Object.fromEntries([...진료과목Set].map(item => [item, false])));
-    set의료자원Filters(Object.fromEntries([...의료자원Set].map(item => [item, false])));
+    setSpecialtyFilters(Object.fromEntries([...specialtySet].map(item => [item, false])));
+    setResourceFilters(Object.fromEntries([...resourceSet].map(item => [item, false])));
     
     setLoading(false);
 
@@ -231,15 +242,15 @@ const App = () => {
 
   const filteredHospitals = hospitals.filter(hospital =>
     hospital.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    Object.entries(진료과목Filters).every(([key, value]) => !value || hospital.진료과목.includes(key)) &&
-    Object.entries(의료자원Filters).every(([key, value]) => !value || hospital.의료자원.includes(key))
+    Object.entries(specialtyFilters).every(([key, value]) => !value || hospital.specialties.includes(key)) &&
+    Object.entries(resourceFilters).every(([key, value]) => !value || (hospital.resources && hospital.resources.includes(key)))
   );
 
   const handleCheckboxChange = (category, item) => {
     if (category === '진료과목') {
-      set진료과목Filters(prev => ({ ...prev, [item]: !prev[item] }));
+      setSpecialtyFilters(prev => ({ ...prev, [item]: !prev[item] }));
     } else if (category === '의료자원') {
-      set의료자원Filters(prev => ({ ...prev, [item]: !prev[item] }));
+      setResourceFilters(prev => ({ ...prev, [item]: !prev[item] }));
     }
   };
 
@@ -278,11 +289,11 @@ const App = () => {
             
             <div style={{ marginBottom: '10px' }}>
               <h3>진료과목</h3>
-              {Object.keys(진료과목Filters).map(item => (
+              {Object.keys(specialtyFilters).map(item => (
                 <label key={item} style={{ marginRight: '10px', display: 'inline-block' }}>
                   <input
                     type="checkbox"
-                    checked={진료과목Filters[item]}
+                    checked={specialtyFilters[item]}
                     onChange={() => handleCheckboxChange('진료과목', item)}
                   />
                   {item}
@@ -292,11 +303,11 @@ const App = () => {
 
             <div style={{ marginBottom: '10px' }}>
               <h3>의료자원</h3>
-              {Object.keys(의료자원Filters).map(item => (
+              {Object.keys(resourceFilters).map(item => (
                 <label key={item} style={{ marginRight: '10px', display: 'inline-block' }}>
                   <input
                     type="checkbox"
-                    checked={의료자원Filters[item]}
+                    checked={resourceFilters[item]}
                     onChange={() => handleCheckboxChange('의료자원', item)}
                   />
                   {item}
