@@ -122,7 +122,7 @@ const ListView = ({ hospitals }) => {
 const LocationMarker = ({ position }) => {
   const map = useMap();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (position) {
       map.flyTo(position, 13);
     }
@@ -135,12 +135,43 @@ const LocationMarker = ({ position }) => {
   ) : null;
 };
 
+const CurrentLocationButton = ({ userLocation }) => {
+  const map = useMap();
+
+  const handleClick = () => {
+    if (userLocation) {
+      map.flyTo(userLocation, 13);
+    } else {
+      alert('현재 위치 정보를 사용할 수 없습니다.');
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleClick}
+      style={{
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        zIndex: 1000,
+        padding: '10px',
+        backgroundColor: 'white',
+        border: '2px solid rgba(0,0,0,0.2)',
+        borderRadius: '4px',
+        cursor: 'pointer'
+      }}
+    >
+      현재 위치로
+    </button>
+  );
+};
+
 const MapView = ({ hospitals, userLocation }) => {
   const koreaCenter = [36.5, 127.5];
   const defaultZoom = 7;
 
   return (
-    <div className="map-container">
+    <div className="map-container" style={{ position: 'relative' }}>
       <MapContainer 
         center={userLocation || koreaCenter} 
         zoom={userLocation ? 13 : defaultZoom} 
@@ -157,11 +188,8 @@ const MapView = ({ hospitals, userLocation }) => {
             </Popup>
           </Marker>
         ))}
-        {userLocation && (
-          <Marker position={userLocation}>
-            <Popup>현재 위치</Popup>
-          </Marker>
-        )}
+        <LocationMarker position={userLocation} />
+        <CurrentLocationButton userLocation={userLocation} />
       </MapContainer>
     </div>
   );
@@ -193,6 +221,58 @@ const Footer = () => {
       <p style={lineStyle}>Special thanks to 지누</p>
       <p style={lineStyle}>수정요청, 문의 choarakim<span style={{fontSize: '0.9em'}}>(골뱅이)</span>gmail<span style={{fontSize: '0.9em'}}>(쩜)</span>com</p>
     </footer>
+  );
+};
+
+const GoToTopButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    toggleVisibility(); // Check initial scroll position
+
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <button
+      onClick={scrollToTop}
+      style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        zIndex: 1000,
+        padding: '10px 15px',
+        backgroundColor: '#007bff',
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+      }}
+    >
+      ↑ 맨 위로
+    </button>
   );
 };
 
@@ -332,6 +412,7 @@ const App = () => {
       )}
 
       <Footer />
+      <GoToTopButton />
     </div>
   );
 };
