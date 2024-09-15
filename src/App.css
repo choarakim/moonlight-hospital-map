@@ -1,74 +1,36 @@
-.App {
-  text-align: center;
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1;
+  color: #333;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Add this to your CSS file or as a style tag in your HTML */
+/* Typography */
 .app-title {
   display: flex;
-  align-items: left;
-  justify-content: left;
+  align-items: center;
   font-size: 1.8em;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .app-title .emoji {
   margin-right: 10px;
 }
 
-/* New styles for app content padding */
-.app-content {
-  padding-left: 20px;  /* Adjust this value as needed */
-  padding-right: 20px; /* Added for balance, remove if not needed */
-}
-
-/* If you want padding only for specific elements, you can target them directly */
-.location-message, 
-.search-container,
-.view-toggle-button {
-  padding-left: 20px;  /* Adjust this value as needed */
+.info-message {
+  font-size: 0.9em;
+  margin-bottom: 10px;
 }
 
 .info-message.red-small-font {
-  color: #ff0000;  /* Bright red color */
-  font-size: 0.8em;  /* Smaller font size */
-  padding: 5px 0;  /* Reduce padding */
-  margin-bottom: 10px;
-  text-align: left;  /* Align text to the left */
+  color: #ff0000;
+  font-size: 0.8em;
 }
 
 .info-message.red-small-font::before {
@@ -76,109 +38,16 @@
   margin-right: 5px;
 }
 
+/* Buttons */
 .detailed-search-button,
-.view-toggle-button {
-  font-size: 1.2rem;  /* Increase font size */
-  padding: 12px 15px; /* Increase padding for larger touch target */
-  width: 100%;
-  margin-bottom: 10px;
-  text-align: center;
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.detailed-search-button:hover,
-.view-toggle-button:hover {
-  background-color: #e0e0e0;
-}
-
-/* Responsive map size */
-.map-container {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.map-container .leaflet-container {
-  width: 100%;
-  height: 600px;
-}
-
-@media (max-width: 768px) {
-  .map-container .leaflet-container {
-    height: 400px;
-  }
-}
-
-@media (max-width: 480px) {
-  .map-container .leaflet-container {
-    height: 300px;
-  }
-}
-
-.leaflet-popup-content {
-  width: auto !important;
-  min-width: 260px;
-  max-width: 90vw; /* 90% of the viewport width */
-  max-height: 80vh; /* 80% of the viewport height */
-  overflow-y: auto;
-}
-
-@media (min-width: 768px) {
-  .leaflet-popup-content {
-    min-width: 300px;
-  }
-}
-
-.hospital-info {
-  font-size: 0.8rem; /* Increase base font size */
-  line-height: 1.4; /* Adjust line height for better readability */
-}
-
-.hospital-info h2 {
-  font-size: 1.4rem; /* Larger font for hospital name */
-  margin-bottom: 0.5em;
-}
-
-.hospital-info p {
-  margin-bottom: 0.5em; /* Add some space between paragraphs */
-} 
-
-.hospital-info .hospital-hours {
-  font-size: 0.9rem; /* Slightly smaller than main text, but still larger than before */
-}
-
-.hospital-info-details {
-  font-size: 1rem; /* Slightly bigger font size */
-  line-height: 1.3; /* Reduced line height for less space between lines */
-  margin-bottom: 0.5em; /* Reduced margin between paragraphs */
-}
-
-.hospital-info-details a {
-  color: #007bff; /* Ensure links are clearly visible */
-  text-decoration: none;
-}
-
-.hospital-info-details a:hover {
-  text-decoration: underline;
-}
-
-.hospital-info .share-button {
+.view-toggle-button,
+.share-button,
+.current-location-button,
+.go-to-top-button {
   font-size: 1rem;
-  padding: 8px 12px;
-  margin-top: 10px;
-}
-
-.share-button {
-  font-size: 1.1rem; /* Increase font size */
-  padding: 10px 15px; /* Increase padding for larger touch target */
-  margin-top: 15px; /* Add some space above the button */
-  background-color: #007bff; /* Use a color that stands out */
+  padding: 10px 10px;
+  margin: 10px 5px;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -186,25 +55,240 @@
   transition: background-color 0.3s ease;
 }
 
-.share-button:hover {
-  background-color: #0056b3; /* Darker shade for hover effect */
+.detailed-search-button:hover,
+.view-toggle-button:hover,
+.share-button:hover,
+.current-location-button:hover,
+.go-to-top-button:hover {
+  background-color: #0056b3;
+}
+
+/* Search and filter styles */
+.search-expanded {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.filter-section {
+  margin-bottom: 15px;
+}
+
+.filter-label {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+/* Map styles */
+.map-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 700px;
+}
+
+.current-location-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.3s ease;
+}
+
+.current-location-button:hover {
+  background-color: #f4f4f4;
+}
+
+/* Hospital info styles */
+.hospital-info {
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.hospital-info h2 {
+  font-size: 1.1rem;
+  margin: 10px 0 10px 0;
+}
+
+.hospital-info p {
+  margin: 5px 0 10px 0;
+}
+
+.hospital-info-main {
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.hospital-info-details {
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.hospital-info-details a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.hospital-info-details a:hover {
+  text-decoration: underline;
+}
+
+/* HospitalHours component styles */
+
+.hospital-hours {
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
+
+.hospital-hours h4 {
+  margin: 3px 0;
+  font-size: 0.9em;
+}
+
+.hospital-hours-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 5px;
+}
+
+.hospital-hours-item {
+  margin: 0;
+  padding: 0;
+  font-size: 0.8em;
+  line-height: 1.2;
+  display: flex;
+  align-items: baseline;
+}
+
+.hospital-hours-day {
+  font-weight: bold;
+  margin-right: 3px;
+  flex-shrink: 0;
+}
+
+.hospital-hours-time {
+  flex-grow: 1;
+}
+
+.hospital-hours-note {
+  font-size: 0.75em;
+  color: #666;
+  margin-left: 3px;
+}
+
+.share-button {
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  margin: 0 0 10px 0;
+}
+
+
+/* Region button styles */
+.region-section {
+  margin-bottom: 10px; /* Space between region sections */
+}
+
+.region-toggle {
+  width: 100%; /* Full width */
+  padding: 10px 15px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.region-toggle:hover {
+  background-color: #e0e0e0;
+}
+
+.region-hospitals {
+  margin-top: 10px; /* Space between button and hospital list */
+}
+
+/* Footer styles */
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.8em;
+  line-height: 1;
+}
+
+.footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.email-obfuscation {
+  font-size: 0.9em;
 }
 
 /* Responsive design */
-@media (min-width: 768px) {
-  .share-button {
-    font-size: 1rem; /* Slightly smaller on larger screens if desired */
+@media (max-width: 768px) {
+  .leaflet-container {
+    height: 500px;
+  }
+
+  .app-title {
+    font-size: 1.5em;
+  }
+
+  .detailed-search-button,
+  .view-toggle-button,
+  .share-button,
+  .current-location-button,
+  .go-to-top-button {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+
+  .region-toggle {
+    font-size: 0.9em;
     padding: 8px 12px;
   }
 }
 
-/* Responsive adjustments */
-@media (min-width: 768px) {
-  .hospital-info {
-    font-size: 1rem; /* Slightly smaller on larger screens if desired */
+@media (max-width: 480px) {
+  .leaflet-container {
+    height: 400px;
   }
-  
-  .hospital-info h2 {
-    font-size: 1.3rem;
+
+  .app-title {
+    font-size: 1.2em;
+  }
+
+  .hospital-info {
+    font-size: 0.8rem;
+  }
+  .region-toggle {
+    font-size: 0.8em;
   }
 }
+
+
