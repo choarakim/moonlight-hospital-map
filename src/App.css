@@ -120,6 +120,62 @@ body {
   background-color: #f4f4f4;
 }
 
+/* Popup styles */
+.leaflet-popup-content-wrapper {
+  max-height: 400px;
+  padding-right: 5px;
+  width: auto;
+  padding-top: 10px; /* Add space at the top for the close button */
+}
+
+.leaflet-popup-content {
+  max-height: 350px; /* Reduce max-height to account for the close button */
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 13px 13px; /* Remove top margin */
+  padding-right: 5px;
+  width: 100% !important;
+}
+
+/* Style for the close button */
+.leaflet-popup-close-button {
+  position: absolute !important;
+  top: 5px !important; /* Position from the top of the popup */
+  right: 5px !important;
+  color: #333 !important; /* Adjust color as needed */
+  font-size: 20px !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #000 !important; /* Darker color on hover */
+}
+
+/* Ensure the content doesn't overlap with the close button */
+.leaflet-popup-content > :first-child {
+  margin-top: 0;
+}
+
+/* Adjust scrollbar appearance for webkit browsers */
+.leaflet-popup-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.leaflet-popup-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.leaflet-popup-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.leaflet-popup-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 /* Hospital info styles */
 .hospital-info {
   font-size: 0.9rem;

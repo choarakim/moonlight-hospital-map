@@ -14,7 +14,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-// Extracted components
 const ShareButton = ({ hospital }) => {
   const [shared, setShared] = useState(false);
 
@@ -88,10 +87,10 @@ const RegionSection = ({ region, hospitals }) => {
 const HospitalInfo = ({ hospital }) => (
   <div className="hospital-info">
     <h2>{hospital.name}</h2>
-    <p className="hospital-info-main">
+    <p className="hospital-info-details">
       {hospital.type} | <a href={`tel:${hospital.phone}`}>{hospital.phone}</a>
     </p>
-    <p className="hospital-info-main">{hospital.address}</p>
+    <p className="hospital-info-details">{hospital.address}</p>
     <div className="hospital-hours">
       <HospitalHours hours={hospital.hours} />
     </div>
@@ -144,14 +143,18 @@ const HospitalHours = ({ hours }) => {
 const LocationMarker = ({ position }) => {
   const map = useMap();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (position) {
       map.flyTo(position, 13);
     }
   }, [map, position]);
 
+  const customIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+  });
+
   return position ? (
-    <Marker position={position}>
+    <Marker position={position} icon={customIcon}>
       <Popup>현재 위치</Popup>
     </Marker>
   ) : null;
