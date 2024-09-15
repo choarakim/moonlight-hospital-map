@@ -35,6 +35,7 @@ body {
 
 .info-message.red-small-font::before {
   content: "⚠️ ";
+  line-height: 1.5;
   margin-right: 5px;
 }
 
@@ -94,7 +95,7 @@ body {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 15px;
+  padding: 12px;
   box-sizing: border-box;
 }
 
@@ -249,45 +250,9 @@ body {
   font-size: 0.9em;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .leaflet-container {
-    height: 500px;
-  }
-
-  .app-title {
-    font-size: 1.5em;
-  }
-
-  .detailed-search-button,
-  .view-toggle-button,
-  .share-button,
-  .current-location-button,
-  .go-to-top-button {
-    font-size: 1rem;
-    padding: 8px 12px;
-  }
-
-  .region-toggle {
-    font-size: 0.9em;
-    padding: 8px 12px;
-  }
-}
-
 @media (max-width: 480px) {
-  .leaflet-container {
-    height: 400px;
-  }
-
   .app-title {
-    font-size: 1.2em;
-  }
-
-  .hospital-info {
-    font-size: 0.8rem;
-  }
-  .region-toggle {
-    font-size: 0.8em;
+    font-size: 1.7em;
   }
 }
 
